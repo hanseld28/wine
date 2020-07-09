@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/LayoutPadrao}">
+	
+<head>
+	<title th:text="${vinho.nome}">Viña</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/css/uikit.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/css/uikit-rtl.min.css}"/>
+</head>
+
+<body>
+<section layout:fragment="content">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1 th:text="${vinho.nome}">Viña</h1>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-9 js-container-foto">
+				<img th:src="${vinho.url}" th:if="${vinho.temFoto()}" class="img-responsive" width="200" height="200" style="margin:auto"/>
+				
+				<div id="upload-drop" class="js-upload uk-placeholder uk-text-center" th:if="${not vinho.temFoto()}">
+					
+					<img th:src="@{/layout/images/wine-mockup.jpg}" width="400" height="400" />
+					
+					<form id="form-upload" th:attr="data-id-vinho=${vinho.id}">
+						<div class="form-row align-items-center">
+						   	<input type="file" name="files[]" id="upload-select" class="form-control-file col-lg-6" accept=".jpg,.jpeg,.png"/> 
+						   	<span id="message"></span>
+						   	<button type="submit">Confirmar</button>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+			
+			<div class="col-sm-3">
+				<ul class="list-group">
+					<li class="list-group-item" th:text="|Vinho ${vinho.tipo.descricao}|">Tinto</li>
+					<li class="list-group-item" th:text="|${vinho.volume}ml|">750</li>
+					<li class="list-group-item" th:text="${vinho.safra}">2013</li>
+					<li class="list-group-item" th:text="|R$${vinho.valor}|">58.00</li>
+
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/layout/js/vendors/uikit.js}"></script>
+	<script th:src="@{/layout/js/vinho.upload-foto.js}"></script>
+</th:block>
+</body>
+</html>					

@@ -3,6 +3,7 @@
     xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layout/LayoutPadrao}">
 	
 <head>
@@ -23,7 +24,7 @@
 			
 				<div class="col-xs-2">
 					<div class="aw-page-header-controls">
-						<a class="btn btn-primary" th:href="@{/produtos/novo}">
+						<a class="btn btn-primary" th:href="@{/vinhos/novo}">
 							<i class="fa  fa-plus-circle"></i> <span class="hidden-xs  hidden-sm">Novo produto</span>
 						</a>
 					</div>
@@ -43,16 +44,22 @@
 						<th>Safra</th>
 						<th>Volume</th>
 						<th>Valor</th>
+						<th th:if="${#authorization.expression('hasRole(''VISUALIZAR_VINHO'')')}">Visualizar</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="vinho : ${vinhos}">
-						<td th:text="${vinho.id}">1</td>
-						<td><a href="#" th:text="${vinho.nome}">Viña Amalia Dos Fincas Malbec</a>
-						<td th:text="${vinho.tipo}">Tinto</td>
-						<td th:text="${vinho.safra}">2013</td>
-						<td th:text="${vinho.volume}">750ml</td>
-						<td th:text="${vinho.valor}">R$55,00</td>
+						<td th:text="${vinho.id}"></td>
+						<td th:text="${vinho.nome}"></td>
+						<td th:text="${vinho.tipo.descricao}"></td>
+						<td th:text="${vinho.safra}"></td>
+						<td th:text="${vinho.volume}"></td>
+						<td th:text="${vinho.valor}"></td>
+						<td th:if="${#authorization.expression('hasRole(''VISUALIZAR_VINHO'')')}">
+							<a th:href="@{/vinhos/{id}(id=${vinho.id})}">
+								<em class="fa fa-picture-o fa-2x"></em>
+							</a>
+						</td> 
 					</tr>
 					<tr th:if="${vinhos.empty}">
 						<td colspan="6">Nenhum vinho cadastrado</td> 
